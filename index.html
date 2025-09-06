@@ -594,14 +594,15 @@
   <!-- Auth Modal -->
   <div id="authModal" class="auth-modal">
     <div class="auth-content">
-      <h2 class="auth-title">🔐 인증 코드 입력</h2>
+      <h2 class="auth-title">🔐 채용 플랫폼 경로 접속</h2>
       <p class="auth-message">
-        포트폴리오에 접근하기 위해<br>
-        인증 코드를 입력해주세요.
+        채용 플랫폼 경로 접속으로<br>
+        인증 코드 생략
       </p>
-      <input type="password" id="authInput" class="auth-input" placeholder="인증 코드를 입력하세요" maxlength="4">
-      <div id="authError" class="auth-error"></div>
-      <button id="authSubmit" class="auth-btn" onclick="checkAuthCode()">확인</button>
+      <div style="margin: 20px 0; padding: 15px; background: rgba(30, 58, 138, 0.1); border-radius: 8px; color: var(--brand);">
+        ✅ 인증이 완료되었습니다
+      </div>
+      <button id="authSubmit" class="auth-btn" onclick="checkAuthCode()">포트폴리오 확인하기</button>
     </div>
   </div>
 
@@ -1157,68 +1158,14 @@ ${message}
     }
 
     // Auth Modal Functions
-    // 인증코드 보안 처리 (다중 인코딩 및 난독화)
-    const _0x4a2b = ['MTU5MA==', 'YXRvYg=='];
-    const _decode = (str) => window[atob(_0x4a2b[1])](str);
-    const AUTH_CODE = _decode(_0x4a2b[0]);
-    let authAttempts = 0;
-    const maxAttempts = 3;
-
     function checkAuthCode() {
-      const input = document.getElementById('authInput');
-      const errorDiv = document.getElementById('authError');
-      const submitBtn = document.getElementById('authSubmit');
-      const enteredCode = input.value.trim();
-
-      if (enteredCode === AUTH_CODE) {
-        // 인증 성공
-        document.getElementById('authModal').classList.add('hidden');
-        document.getElementById('welcomeModal').classList.remove('hidden');
-        document.body.classList.remove('auth-blur');
-        errorDiv.textContent = '';
-        authAttempts = 0;
-      } else {
-        // 인증 실패
-        authAttempts++;
-        input.classList.add('error');
-        
-        if (authAttempts >= maxAttempts) {
-          errorDiv.textContent = `인증에 ${maxAttempts}번 실패했습니다. 잠시 후 다시 시도해주세요.`;
-          submitBtn.disabled = true;
-          input.disabled = true;
-          
-          // 30초 후 재시도 가능
-          setTimeout(() => {
-            authAttempts = 0;
-            submitBtn.disabled = false;
-            input.disabled = false;
-            errorDiv.textContent = '';
-            input.value = '';
-          }, 30000);
-        } else {
-          errorDiv.textContent = `잘못된 인증 코드입니다. (${authAttempts}/${maxAttempts})`;
-        }
-        
-        input.value = '';
-        
-        // 에러 애니메이션 제거
-        setTimeout(() => {
-          input.classList.remove('error');
-        }, 500);
-      }
+      // 채용 플랫폼 경로 접속으로 인증 코드 패스 - 자동 통과
+      document.getElementById('authModal').classList.add('hidden');
+      document.getElementById('welcomeModal').classList.remove('hidden');
+      document.body.classList.remove('auth-blur');
     }
 
-    // 인증 코드 입력 시 엔터키 처리
-    document.getElementById('authInput').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        checkAuthCode();
-      }
-    });
-
-    // 숫자만 입력 가능하도록 제한
-    document.getElementById('authInput').addEventListener('input', (e) => {
-      e.target.value = e.target.value.replace(/[^0-9]/g, '');
-    });
+    // 인증 관련 이벤트 리스너 제거됨 (채용 플랫폼 경로 접속으로 인증 코드 패스)
 
     // 개인정보 복호화 및 표시
     function initPersonalInfo() {
